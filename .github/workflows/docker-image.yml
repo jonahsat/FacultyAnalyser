@@ -21,7 +21,7 @@ jobs:
 
     # Build the Docker image and tag it with Docker Hub username and dynamic tag
     - name: Build the Docker image for FacultyAnalyser
-      run: docker build . --file Dockerfile --jonahsat/facultyanalyser:$TAG
+      run: docker build . --file Dockerfile -t jonahsat/facultyanalyser:$TAG
 
     # Log in to Docker Hub
     - name: Log in to Docker Hub
