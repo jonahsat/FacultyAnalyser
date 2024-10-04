@@ -15,14 +15,18 @@ jobs:
     # Checkout the repository
     - uses: actions/checkout@v4
 
-    # Build the Docker image
-    - name: Build the Docker image for FacultyAnalyser
-      run: docker build . --file Dockerfile --tag jonahsat/facultyanalyser:$(date +%s)
+    # Define the tag variable to use the current date and time as a tag
+    - name: Set up Docker tag
+      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
 
-    # Push the Docker image to Docker Hub
+    # Build the Docker image and tag it with Docker Hub username and dynamic tag
+    - name: Build the Docker image for FacultyAnalyser
+      run: docker build . --file Dockerfile --jonahsat/facultyanalyser:$TAG
+
+    # Log in to Docker Hub
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
+    # Push the Docker image to Docker Hub
     - name: Push Docker image to Docker Hub
-      run: docker push jonahsat/facultyanalyser:$(date +%s)
-
+      run: docker push jonahsat/facultyanalyser:$TAG
