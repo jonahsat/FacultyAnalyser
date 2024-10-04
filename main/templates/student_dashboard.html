@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 mt-16">
+    <h1 class="text-4xl font-light text-indigo-900 mb-8 text-center">Student Dashboard</h1>
+
+    <!-- Profile Information -->
+    <div class="mb-8 p-6 bg-white rounded-lg shadow-md bg-gradient-to-r from-yellow-300 to-yellow-200">
+        <h2 class="text-2xl font-semibold text-indigo-900 mb-4">Profile Information</h2>
+        <p class="text-gray-700"><span class="font-bold">Name:</span> {{ student.user.get_full_name }}</p>
+        <p class="text-gray-700"><span class="font-bold">Major:</span> {{ student.major }}</p>
+    </div>
+
+    <!-- Give Feedback Section -->
+    <div class="mb-8 p-6 bg-white rounded-lg shadow-md bg-gradient-to-r from-yellow-300 to-yellow-200">
+        <h2 class="text-2xl font-semibold text-indigo-900 mb-4">Give Feedback</h2>
+        <ul class="space-y-4">
+            {% for teacher in teachers %}
+            <li class="bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition duration-300  bg-yellow-100">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700 font-medium">{{ teacher.user.get_full_name }}</span>
+                    
+                    <form method="POST" action="{% url 'feedback_form' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="faculty_id" value="{{ teacher.id }}">
+                        <button type="submit" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                            Give Feedback
+                        </button>
+                    </form>
+                </div>
+            </li>
+            {% empty %}
+            <li class="text-gray-500 italic">No teachers to give feedback remaining.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Previous Feedback Section -->
+    <div class="p-6 bg-white rounded-lg shadow-md bg-gradient-to-r from-yellow-300 to-yellow-200">
+        <h2 class="text-2xl font-semibold text-indigo-900 mb-4">Previous Feedback</h2>
+        <ul class="space-y-2">
+            {% for teacher in submitted_teachers %}
+            <li class="bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition duration-300 bg-yellow-100">
+                {{ teacher.user.get_full_name }}
+            </li>
+            {% empty %}
+            <li class="text-gray-500 italic">No feedback submitted yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

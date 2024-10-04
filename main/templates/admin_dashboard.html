@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Admin Dashboard</h1>
+<h2 class="text-2xl mb-4">Faculty Performance Overview</h2>
+<table class="w-full bg-white shadow-md rounded mb-4">
+    <thead>
+        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <th class="py-3 px-6 text-left">Teacher</th>
+            <th class="py-3 px-6 text-left">Overall Rating</th>
+            <th class="py-3 px-6 text-left">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="text-gray-600 text-sm font-light">
+        {% for teacher in teachers %}
+        <tr class="border-b border-gray-200 hover:bg-gray-100">
+            <td class="py-3 px-6 text-left whitespace-nowrap">{{ teacher.name }}</td>
+            <td class="py-3 px-6 text-left">{{ teacher.overall_rating }}/5</td>
+            <td class="py-3 px-6 text-left">
+                <a href="{% url 'teacher_analysis' teacher.id %}" class="bg-blue-500 text-white px-4 py-2 rounded">View Analysis</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

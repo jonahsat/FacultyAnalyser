@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Role{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-light-saffron">
+    <div class="text-center">
+        <h1 class="text-7xl font-light text-indigo-900 mb-12">
+            Which one are you?
+        </h1>
+        <div class="space-x-20">
+            <a href="{% url 'student_signup' %}" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 py-3 px-10 rounded-full text-2xl transition duration-300 ease-in-out transform hover:scale-105">
+                Student
+            </a>
+            <a href="{% url 'faculty_signup' %}" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 py-3 px-10 rounded-full text-2xl transition duration-300 ease-in-out transform hover:scale-105">
+                Teacher
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

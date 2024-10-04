@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Analysis for {{ teacher.user.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-6">Performance Analysis for {{ teacher.user.get_full_name }}</h1>
+    
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-4">Overall Rating</h2>
+        <div class="flex items-center">
+            <span class="text-4xl font-bold text-blue-600">{{ overall_rating|floatformat:2 }}</span>
+            <span class="text-xl ml-2">/5.00</span>
+        </div>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-4">Summary</h2>
+        <p class="text-gray-700">{{ analysis_summary }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Strengths</h2>
+            <ul class="list-disc list-inside text-gray-700">
+                {% for strength in strengths %}
+                    <li>{{ strength }}</li>
+                {% empty %}
+                    <li>No specific strengths identified.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Areas for Improvement</h2>
+            <ul class="list-disc list-inside text-gray-700">
+                {% for area in improvement_areas %}
+                    <li>{{ area }}</li>
+                {% empty %}
+                    <li>No specific areas for improvement identified.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <a href="{% url 'admin_dashboard' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            Back to Admin Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback for {{ teacher.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto p-8 bg-white shadow-md rounded-lg bg-gradient-to-b from-yellow-100 to-yellow-200 mt-16">
+    <h1 class="text-4xl font-light text-indigo-900 mb-8 text-center">Feedback for {{ teacher.user.get_full_name }}</h1>
+    
+    <form method="post" action="{% url 'submit_feedback' teacher.id %}">
+        {% csrf_token %}
+        
+        {% for question in questions %}
+        <div class="mb-7">
+            <label class="block text-gray-700 font-bold mb-2" for="question_{{ question.id }}">{{ forloop.counter }}. {{ question.text }}</label>
+            <div class="space-y-2">
+                {% for option in question.options.all %}
+                <div class="flex items-center">
+                    <input type="radio" id="option_{{ option.id }}" name="question_{{ question.id }}" value="{{ option.id }}" required
+                           class="hidden peer">
+                    <label for="option_{{ option.id }}"
+                           class="w-full py-2 px-4 text-gray-700 bg-white rounded-full border border-gray-300 cursor-pointer peer-checked:bg-yellow-500 peer-checked:text-white peer-checked:border-yellow-800 hover:bg-yellow-50 transition-all duration-200">
+                        {{ option.text }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Submit Button -->
+        <div class="flex items-center justify-end mt-8">
+            <button class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105" type="submit" disabled>
+                Submit Feedback
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('change', function() {
+        const uniqueQuestionNames = new Set([...form.querySelectorAll('input[type="radio"]')].map(input => input.name));
+        const allAnswered = [...uniqueQuestionNames].every(name => {
+            return [...form.querySelectorAll(`input[name="${name}"]`)].some(radio => radio.checked);
+        });
+        
+        // Enable button only if all questions are answered
+        submitButton.disabled = !allAnswered;
+        submitButton.classList.toggle('opacity-50', !allAnswered);
+        submitButton.classList.toggle('cursor-not-allowed', !allAnswered);
+    });
+});
+</script>
+{% endblock %}

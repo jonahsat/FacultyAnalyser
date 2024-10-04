@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-light-saffron">
+    <div class="text-center">
+        {% if user.is_authenticated %}
+            {% if user.userprofile.is_student %}
+                <h1 class="text-8xl font-light text-indigo-900 mb-12">
+                    Welcome, {{ user.first_name }}!
+                </h1>
+                <div class="flex space-x-4 items-center justify-center">
+                    <a href="{% url 'start_feedback' %}" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                        Start Feedback Session
+                    </a>
+                    <a href="{% url 'student_dashboard' %}" class="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                        My Dashboard
+                    </a>
+                </div>
+            {% elif user.userprofile.is_faculty %}
+                <h1 class="text-8xl font-light text-indigo-900 mb-12">
+                    Welcome, {{ user.first_name }}!
+                </h1>
+                <a href="{% url 'teacher_dashboard' %}" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                    My Dashboard
+                </a>
+            {% else %}
+                <h1 class="text-6xl font-light text-indigo-900 mb-12">
+                    Hey, {{ user.first_name }}! You are an unknown user!
+                </h1>
+                <a href="{% url 'logout' %}" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                    Logout
+                </a>
+            {% endif %}
+        {% else %}
+            <h1 class="text-8xl font-light  text-indigo-900 mb-12">
+                Welcome, Human!
+            </h1>
+            <a href="{% url 'login' %}" class="text-2xl bg-yellow-400 hover:bg-yellow-300 text-indigo-900 py-3 px-12 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                Login
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

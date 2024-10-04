@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Signup{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg bg-yellow-100 mt-16">
+    <h1 class="text-4xl font-light text-indigo-900 mb-8 text-center">Student Signup</h1>
+    <form method="POST" action="{% url 'student_signup' %}">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2" for="name">Full Name</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Eg. Student <number>" required>
+        </div>
+        <div class="flex mb-4 space-x-4">
+            <div class="w-1/2">
+                <label class="block text-gray-700 font-bold mb-2" for="email">Email</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="email" placeholder="Eg. student<number>@gmail.com" required>
+            </div>
+            <div class="w-1/2">
+                <label class="block text-gray-700 font-bold mb-2" for="registration_id">Registration ID</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="registration_id" name="registration_id" type="text" placeholder="Eg. stu00<number>" required>
+            </div>
+        </div>
+        <div class="flex mb-4 space-x-4">
+            <div class="w-1/2">
+                <label class="block text-gray-700 font-bold mb-2" for="major">Major</label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="major" name="major" required>
+                    <option value="" disabled selected>Select Major</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Business Administration">Business Administration</option>
+                </select>
+            </div>
+
+            <div class="w-1/2">
+                <label class="block text-gray-700 font-bold mb-2" for="semester">Current Semester</label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="semester" name="semester" required>
+                    <option value="" disabled selected>Select Semester</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex mb-4 space-x-4">
+            <div class="w-1/2 relative">
+                <label class="block text-gray-700 font-bold mb-2" for="password">Password</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" required>
+                <button type="button" class="mt-8 absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onclick="togglePasswordVisibility('password')">
+                    <svg class="h-5 w-5 text-gray-500" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M15 12a3 3 0 01-6 0 3 3 0 016 0zm6 0c0 4-6 8-9 8S3 16 3 12s6-8 9-8 9 4 9 8z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="w-1/2 relative">
+                <label class="block text-gray-700 font-bold mb-2" for="confirm_password">Confirm Password</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="confirm_password" name="confirm_password" type="password" required>
+                <button type="button" class="mt-8 absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onclick="togglePasswordVisibility('confirm_password')">
+                    <svg class="h-5 w-5 text-gray-500" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M15 12a3 3 0 01-6 0 3 3 0 016 0zm6 0c0 4-6 8-9 8S3 16 3 12s6-8 9-8 9 4 9 8z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" type="submit">
+                Sign Up
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function togglePasswordVisibility(id) {
+    const passwordField = document.getElementById(id);
+    const fieldType = passwordField.getAttribute("type");
+    passwordField.setAttribute("type", fieldType === "password" ? "text" : "password");
+}
+</script>
+{% endblock %}
