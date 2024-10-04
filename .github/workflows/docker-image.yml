@@ -17,7 +17,7 @@ jobs:
 
     # Build the Docker image
     - name: Build the Docker image for FacultyAnalyser
-      run: docker build . --file Dockerfile --tag facultyanalyser:$(date +%s)
+      run: docker build . --file Dockerfile --tag jonahsat/facultyanalyser:$(date +%s)
 
     # Push the Docker image to Docker Hub
     - name: Log in to Docker Hub
