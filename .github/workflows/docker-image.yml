@@ -1,0 +1,28 @@
+name: Docker Image CI for FacultyAnalyser
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - uses: actions/checkout@v4
+
+    # Build the Docker image
+    - name: Build the Docker image for FacultyAnalyser
+      run: docker build . --file Dockerfile --tag facultyanalyser:$(date +%s)
+
+    # Push the Docker image to Docker Hub
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+    - name: Push Docker image to Docker Hub
+      run: docker push jonahsat/facultyanalyser:$(date +%s)
+
